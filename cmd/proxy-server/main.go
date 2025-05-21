@@ -13,12 +13,27 @@ func main() {
 	port := flag.Int("port", 0, "Port on which CacheCruiser listens")
 	origin := flag.String("origin", "", "Origin server URL")
 	clearCache := flag.Bool("clear-cache", false, "Clear cache and exit")
+	cacheType := flag.String("cache-type", "memory", "Cache type: 'memory' or 'disk'")
+	cacheDir := flag.String("cache-dir", "./disk-cache-data", "Directory for disk cache (only used with --cache-type=disk)")
 	flag.Parse()
 
-	memoryCache := cache.NewMemoryCache()
+	var cacheImpl cache.Cache
+	var err error
+
+	switch *cacheType {
+	case "memory":
+		cacheImpl = cache.NewMemoryCache()
+	case "disk":
+		cacheImpl, err = cache.NewDiskCache(*cacheDir)
+		if err != nil {
+			log.Fatalf("Failed to create disk cache: %v", err)
+		}
+	default:
+		log.Fatalf("Unknown cache type: %s", *cacheType)
+	}
 
 	if *clearCache {
-		memoryCache.Clear()
+		cacheImpl.Clear()
 		fmt.Println("Cache cleared | exiting program...")
 		return
 	}
@@ -29,7 +44,7 @@ func main() {
 	}
 
 	// Create and start proxy server
-	proxyServer, err := proxy.NewProxyServer(*port, *origin, memoryCache)
+	proxyServer, err := proxy.NewProxyServer(*port, *origin, cacheImpl)
 	if err != nil {
 		log.Fatalf("Failed to create proxy server: %v", err)
 	}
