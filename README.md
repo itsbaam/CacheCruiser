@@ -76,7 +76,7 @@ This project is a learning exercise that comes from [Roadmap.sh Caching Proxy pr
 Not implemented. May come in future iterations also as a learning exercise.
 
 ## Roadmap
-- [ ] Disk-based caching
+- [x] Disk-based caching
 - [ ] Redis-based caching
 - [ ] Configurable cache TTL via command-line flags
 - [ ] Cache size limits and eviction policies
