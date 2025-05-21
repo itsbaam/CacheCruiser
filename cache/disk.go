@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -31,7 +32,8 @@ func NewDiskCache(baseDir string) (*DiskCache, error) {
 
 func (c *DiskCache) getCacheFilePath(key CacheKey) string {
 	// Convert the key to a valid filename using base64 encoding to handle special characters
-	filename := filepath.Join(c.baseDir, string(key))
+	encodedKey := base64.URLEncoding.EncodeToString([]byte(key))
+	filename := filepath.Join(c.baseDir, encodedKey)
 	return filename
 }
 
