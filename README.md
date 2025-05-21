@@ -30,12 +30,20 @@ This project currently implements only in-memory caching. Disk caching and Redis
 ### Flags
 - `--port` &lt;number&gt;: Port on which CacheCruiser listens (required)
 - `--origin` &lt;url&gt;: URL of the origin server to which requests are forwarded (required)
-- `--clear-cache`: Remove all cached data and exit
+- `--clear-cache`: Remove all cached data and exit (optional)
+- `--cache-type` &lt;type&gt;: Type of cache to use (optional, default: `memory`)
+- `--cache-dir` &lt;path&gt;: Directory to store cached data (optional, default: `./disk-cache-data`)
 
 ### Examples
 ```bash
 # Start the proxy on port 3000, forwarding to dummyjson.com
 ./cachecruiser --port 3000 --origin http://dummyjson.com
+
+# Start the proxy with disk caching, storing cache data in a custom directory
+./cachecruiser --port 3000 --origin http://dummyjson.com --cache-type disk --cache-dir /path/to/cache/data
+
+# Start the proxy with disk caching using default cache directory
+./cachecruiser --port 3000 --origin http://dummyjson.com --cache-type disk
 
 # Clear the cache and exit
 ./cachecruiser --clear-cache
@@ -76,6 +84,7 @@ This project is a learning exercise that comes from [Roadmap.sh Caching Proxy pr
 Not implemented. May come in future iterations also as a learning exercise.
 
 ## Roadmap
+- [x] In-memory caching
 - [x] Disk-based caching
 - [ ] Redis-based caching
 - [ ] Configurable cache TTL via command-line flags
