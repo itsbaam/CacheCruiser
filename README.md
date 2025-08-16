@@ -5,7 +5,7 @@ _A CLI caching proxy server._
 ## Overview
 CacheCruiser forwards incoming HTTP requests to a specified origin server, caches the responses on the cache instance, and returns cached responses on repeat requests to improve performance and reduce load on the origin.
 
-This project currently implements only in-memory caching. Disk caching and Redis caching are planned for future releases.
+This project currently implements in-memory caching and disk caching. Redis caching is planned for future releases.
 
 ## Prerequisites
 - Go 1.18+ installed
